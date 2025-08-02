@@ -49,7 +49,7 @@ bundle exec rspec
 
 ## 1. Sleep Records
 
-### Clock In (Sleep / Wake)
+### 1.1 Clock In (Sleep / Wake)
 
 **Endpoint**
 
@@ -59,7 +59,7 @@ POST /sleep_records/clock_in
 - If no incomplete record → create new sleep_at
 - If has incomplete record → update wake_at
 
-### List User Records
+### 1.2 List User Records
 
 **Endpoint**
 
@@ -70,14 +70,14 @@ GET /sleep_records?user_id=1
 
 ## 2. Follow
 
-### Follow a User
+### 2.1 Follow a User
 
 **Endpoint**
 
 ```http
 POST /follows
 ```
-### Unfollow a User
+### 2.2 Unfollow a User
 
 **Endpoint**
 
@@ -87,7 +87,7 @@ DELETE /follows/:id
 
 ## 3. Weekly Rankings of Followings
 
-### Get Weekly Rankings
+### 3.1 Get Weekly Rankings
 
 **Endpoint**
 
