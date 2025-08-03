@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_03_023400) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_03_025037) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,5 +39,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_023400) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "sleep_at"], name: "index_track_management_sleep_records_on_user_id_and_sleep_at"
   end
+
+
+  create_view "track_management_followings_weekly_sleep_rankings", materialized: true, sql_definition: <<-SQL
+      SELECT f.follower_id,
+      sr.user_id AS followed_id,
+      u.name AS followed_name,
+      sr.sleep_at AS sleep_at_utc,
+      sr.wake_at AS wake_at_utc,
+      timezone((sr.sleep_timezone)::text, sr.sleep_at) AS sleep_at_local,
+      timezone((sr.wake_timezone)::text, sr.wake_at) AS wake_at_local,
+      sr.sleep_timezone,
+      sr.wake_timezone,
+      sr.duration
+     FROM ((relationship_follow_records f
+       JOIN track_management_sleep_records sr ON ((sr.user_id = f.followed_id)))
+       JOIN master_data_users u ON ((u.id = sr.user_id)))
+    WHERE ((timezone((sr.sleep_timezone)::text, sr.sleep_at) >= (date_trunc('week'::text, timezone((sr.sleep_timezone)::text, now())) - 'P7D'::interval)) AND (timezone((sr.sleep_timezone)::text, sr.sleep_at) < date_trunc('week'::text, timezone((sr.sleep_timezone)::text, now()))) AND (sr.wake_at IS NOT NULL))
+    ORDER BY sr.duration DESC;
+  SQL
+  add_index "track_management_followings_weekly_sleep_rankings", ["follower_id", "followed_id", "sleep_at_utc"], name: "index_followings_weekly_sleep_rankings_unique", unique: true
 
 end
