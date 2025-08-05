@@ -25,6 +25,11 @@ gem 'dry-validation', '~> 1.5'
 # ie. Background Jobs, Scheduling...
 gem 'sidekiq', '~> 7.0.0'
 
+### API Frameworks ###
+# ie. API Frameworks, Serializers, Presenters...
+gem 'alba'
+gem 'grape'
+
 group :development, :test do
   gem 'byebug'
   gem 'database_cleaner-active_record'
