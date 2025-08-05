@@ -1,0 +1,7 @@
+require 'boxenn/entity'
+require 'boxenn/use_case'
+require 'boxenn/repository'
+require 'boxenn/repositories/factory'
+require 'boxenn/repositories/record_mapper'
+require 'boxenn/repositories/query'
+require 'boxenn/repositories/source_wrapper'
