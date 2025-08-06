@@ -18,6 +18,10 @@ module Version
       end
 
       helpers do
+        def current_user
+          @current_user ||= User.first
+        end
+
         def validate_params(contract_class, params)
           result = contract_class.new.call(params)
           error!({ error: 'Validation failed', errors: result.errors.to_h }, 422) if result.failure?
