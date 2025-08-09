@@ -42,8 +42,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_025037) do
 
 
   create_view "track_management_followings_weekly_sleep_rankings", materialized: true, sql_definition: <<-SQL
-      SELECT f.follower_id,
-      sr.user_id AS followed_id,
+      SELECT sr.user_id AS followed_id,
       u.name AS followed_name,
       sr.sleep_at AS sleep_at_utc,
       sr.wake_at AS wake_at_utc,
@@ -52,12 +51,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_025037) do
       sr.sleep_timezone,
       sr.wake_timezone,
       sr.duration
-     FROM ((relationship_follow_records f
-       JOIN track_management_sleep_records sr ON ((sr.user_id = f.followed_id)))
+     FROM (track_management_sleep_records sr
        JOIN master_data_users u ON ((u.id = sr.user_id)))
     WHERE ((timezone((sr.sleep_timezone)::text, sr.sleep_at) >= (date_trunc('week'::text, timezone((sr.sleep_timezone)::text, now())) - 'P7D'::interval)) AND (timezone((sr.sleep_timezone)::text, sr.sleep_at) < date_trunc('week'::text, timezone((sr.sleep_timezone)::text, now()))) AND (sr.wake_at IS NOT NULL))
     ORDER BY sr.duration DESC;
   SQL
-  add_index "track_management_followings_weekly_sleep_rankings", ["follower_id", "followed_id", "sleep_at_utc"], name: "index_followings_weekly_sleep_rankings_unique", unique: true
+  add_index "track_management_followings_weekly_sleep_rankings", ["followed_id", "sleep_at_utc"], name: "index_followings_weekly_sleep_rankings_unique", unique: true
 
 end

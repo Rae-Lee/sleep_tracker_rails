@@ -1,5 +1,4 @@
 SELECT
-  f.follower_id,
   sr.user_id AS followed_id,
   u.name AS followed_name,
   sr.sleep_at AS sleep_at_utc,
@@ -9,9 +8,7 @@ SELECT
   sr.sleep_timezone,
   sr.wake_timezone,
   sr.duration
-FROM relationship_follow_records f
-JOIN track_management_sleep_records sr
-  ON sr.user_id = f.followed_id
+FROM track_management_sleep_records sr
 JOIN master_data_users u 
   ON u.id = sr.user_id
 WHERE 
