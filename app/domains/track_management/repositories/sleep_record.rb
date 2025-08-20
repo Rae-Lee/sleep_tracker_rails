@@ -26,7 +26,7 @@ module TrackManagement
           with_advisory_lock(lock_key) do
             incomplete_record = source.find_by(user_id: user_id, wake_at: nil)
 
-            if incomplete_record && attributes[:wake_at] && attributes[:sleep_at] == incomplete_record.sleep_at.to_datetime
+            if incomplete_record && attributes[:wake_at] && attributes[:sleep_at].to_i == incomplete_record.sleep_at.to_i
               clock_out(incomplete_record, attributes)
             elsif !incomplete_record && attributes[:wake_at].nil?
               clock_in(user_id, attributes)
@@ -59,6 +59,18 @@ module TrackManagement
             duration: duration
           )
         end
+      end
+
+      def find_by_user_id(user_id:, page: 1, per_page: 10)
+        records = source_wrapper.source.where(user_id: user_id).order(:created_at)
+
+        records = records.limit(per_page).offset((page - 1) * per_page)
+
+        records.map { |record| factory.build(record) }
+      end
+
+      def count_by_user_id(user_id:)
+        source_wrapper.source.where(user_id: user_id).count
       end
     end
   end
