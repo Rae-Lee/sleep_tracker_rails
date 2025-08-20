@@ -48,6 +48,10 @@ module Relationship
           "follow_relationship_#{ids[0]}_#{ids[1]}"
         end
       end
+
+      def with_users
+        source_wrapper.source.includes(:followed)
+      end
     end
   end
 end
