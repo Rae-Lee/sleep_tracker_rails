@@ -6,6 +6,7 @@ module TrackManagement
       end
 
       attribute? :user_id, Types::Integer.optional
+      attribute? :user_name, Types::String.optional
       attribute? :sleep_at, Types::Params::DateTime.optional
       attribute? :wake_at, Types::Params::DateTime.optional
       attribute? :duration, Types::Integer.optional
@@ -16,13 +17,13 @@ module TrackManagement
       def sleep_timezone
         return nil unless sleep_at.present?
 
-        sleep_timezone || 'UTC'
+        attributes[:sleep_timezone] || 'UTC'
       end
 
       def wake_timezone
         return nil unless wake_at.present?
 
-        wake_timezone || 'UTC'
+        attributes[:wake_timezone] || 'UTC'
       end
 
       def sleep_at_in_timezone
