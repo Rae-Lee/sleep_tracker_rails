@@ -62,7 +62,7 @@ module TrackManagement
       end
 
       def find_by_user_id(user_id:, page: 1, per_page: 10)
-        records = source_wrapper.source.where(user_id: user_id).order(:created_at)
+        records = source_wrapper.source.where(user_id: user_id).order(created_at: :desc)
 
         records = records.limit(per_page).offset((page - 1) * per_page)
 
