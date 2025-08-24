@@ -1,0 +1,4 @@
+weekly_sleep_ranking_refresh:
+  cron: '0 1 * * 1'  # Every Monday at 1:00 AM
+  class: WeeklySleepRankingRefreshWorker
+  description: "Refresh weekly sleep ranking view and cache heavy users data"
