@@ -8,7 +8,7 @@ RSpec.describe 'Api::V1::SleepRecords::ClockIns', type: :request do
   let(:valid_params) do
     {
       identity_id: user.id,
-      sleep_at: 2.hours.ago.iso8601,
+      sleep_at: "2025-08-23T22:30:00Z",
       sleep_timezone: 'Asia/Taipei'
     }
   end
@@ -39,7 +39,7 @@ RSpec.describe 'Api::V1::SleepRecords::ClockIns', type: :request do
         expect(json[:data].size).to eq(1)
         
         sleep_record_data = json[:data].first
-        expect(Time.parse(sleep_record_data[:sleep_at])).to eq(Time.parse(valid_params[:sleep_at]))
+        expect(Time.parse(sleep_record_data[:sleep_at])).to eq(valid_params[:sleep_at])
         expect(sleep_record_data[:wake_at]).to be_nil
         expect(sleep_record_data[:sleep_timezone]).to eq('Asia/Taipei')
         expect(Time.parse(sleep_record_data[:sleep_at_in_timezone])).to eq(Time.parse(valid_params[:sleep_at]).in_time_zone("Asia/Taipei"))
@@ -77,15 +77,15 @@ RSpec.describe 'Api::V1::SleepRecords::ClockIns', type: :request do
       let!(:incomplete_sleep_record) do
         create(:sleep_record, :incomplete, 
                user: user, 
-               sleep_at: 8.hours.ago,
+               sleep_at: "2025-08-23T22:30:00Z",
                sleep_timezone: 'Asia/Taipei')
       end
 
       let(:clock_out_params) do
         {
           identity_id: user.id,
-          sleep_at: incomplete_sleep_record.sleep_at.iso8601,
-          wake_at: 1.hour.ago.iso8601,
+          sleep_at: incomplete_sleep_record.sleep_at,
+          wake_at: incomplete_sleep_record.sleep_at + 7.hours,
         }
       end
 
@@ -106,7 +106,8 @@ RSpec.describe 'Api::V1::SleepRecords::ClockIns', type: :request do
         json[:data] = JSON.parse(json[:data], symbolize_names: true) if json[:data].is_a?(String)
                 
         sleep_record_data = json[:data].first
-        expect(Time.parse(sleep_record_data[:wake_at])).to eq(Time.parse(clock_out_params[:wake_at]))
+  
+        expect(Time.parse(sleep_record_data[:wake_at])).to eq(clock_out_params[:wake_at])
         expect(sleep_record_data[:status]).to eq('completed')
         expect(sleep_record_data[:sleep_timezone]).to eq('Asia/Taipei')
         expect(sleep_record_data[:wake_timezone]).to eq('Asia/Taipei')
