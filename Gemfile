@@ -24,6 +24,7 @@ gem 'dry-validation', '~> 1.5'
 ### Background Processing ###
 # ie. Background Jobs, Scheduling...
 gem 'sidekiq', '~> 7.0.0'
+gem 'sidekiq-cron', '~> 1.12'
 
 ### API Frameworks ###
 # ie. API Frameworks, Serializers, Presenters...
