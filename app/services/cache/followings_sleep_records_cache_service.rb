@@ -54,6 +54,18 @@ class Cache::FollowingsSleepRecordsCacheService < Redis::BaseCacheAdapter
     invalidate_cache_key(counter_key)
   end
 
+  def invalidate_all_followings_cache
+    pattern = "#{CACHE_KEY_PREFIX}:*"
+    keys = redis.keys(pattern)
+    redis.del(*keys) if keys.any?
+  end
+
+  def invalidate_all_query_counters
+    pattern = "#{QUERY_COUNTER_PREFIX}:*"
+    keys = redis.keys(pattern)
+    redis.del(*keys) if keys.any?
+  end
+
   private
 
   def cache_key

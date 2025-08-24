@@ -23,6 +23,10 @@ module MasterData
       def exists?(id)
         source_wrapper.source.exists?(id: id)
       end
+
+      def all_user_ids
+        source_wrapper.source.pluck(:id)
+      end
     end
   end
 end
