@@ -10,7 +10,7 @@ gem 'tzinfo-data', platforms: %i[mswin mswin64 mingw x64_mingw jruby]
 ### Data Persistence ###
 # ie. DB Adapters, Cache
 gem 'oj'
-gem 'redis', '>= 4.0.1'
+gem 'redis'  
 gem 'scenic', '~> 1.5.5'
 
 ### Code Organization ###
@@ -23,8 +23,8 @@ gem 'dry-validation', '~> 1.5'
 
 ### Background Processing ###
 # ie. Background Jobs, Scheduling...
-gem 'sidekiq', '~> 7.0.0'
-gem 'sidekiq-cron', '~> 1.12'
+gem 'sidekiq', '~> 5.2'
+gem 'sidekiq-cron', '~> 1.9.1'
 
 ### API Frameworks ###
 # ie. API Frameworks, Serializers, Presenters...
