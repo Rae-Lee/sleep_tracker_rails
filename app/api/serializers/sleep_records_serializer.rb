@@ -19,10 +19,6 @@ class Serializers::SleepRecordsSerializer
     object.wake_at_in_timezone&.iso8601
   end
 
-  attribute :created_at do |object|
-    object.created_at&.iso8601
-  end
-
   attribute :status do |object|
     object.incomplete? ? 'sleeping' : 'completed'
   end

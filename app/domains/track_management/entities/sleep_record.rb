@@ -12,7 +12,6 @@ module TrackManagement
       attribute? :duration, Types::Integer.optional
       attribute? :sleep_timezone, Types::String.optional
       attribute? :wake_timezone, Types::String.optional
-      attribute? :created_at, Types::Params::DateTime.optional
 
       def sleep_timezone
         return nil unless sleep_at.present?
