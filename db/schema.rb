@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_03_025037) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_27_154920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,7 +25,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_025037) do
     t.bigint "followed_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_follow_records_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "idx_on_follower_id_followed_id_5c4bac1131", unique: true
+    t.index ["follower_id"], name: "index_follow_records_on_follower_id"
   end
 
   create_table "track_management_sleep_records", force: :cascade do |t|
@@ -37,7 +39,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_025037) do
     t.string "wake_timezone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "created_at"], name: "index_sleep_records_on_user_id_and_created_at"
     t.index ["user_id", "sleep_at"], name: "index_track_management_sleep_records_on_user_id_and_sleep_at"
+    t.index ["user_id", "wake_at"], name: "index_sleep_records_on_user_id_and_wake_at"
   end
 
 
